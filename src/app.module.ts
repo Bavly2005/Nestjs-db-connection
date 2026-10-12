@@ -2,6 +2,7 @@ import { Module, ValidationPipe } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { APP_PIPE } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from './database/database.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -11,6 +12,7 @@ import * as Joi from 'joi';
         PORT: Joi.number().required(),
       }),
     }),
+    DatabaseModule,
     UsersModule,
   ],
   providers: [{ provide: APP_PIPE, useClass: ValidationPipe }],
