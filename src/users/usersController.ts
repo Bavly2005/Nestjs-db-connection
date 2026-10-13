@@ -12,8 +12,10 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { User } from './user.entity';
+// import { User } from './user.entity';
 import { UserService } from './users.service';
+import { User } from './schema/user.schema';
+import { MongoIdDto } from './dtos/mongo-id.dto';
 
 @Controller('users')
 export class UsersController {
@@ -26,8 +28,8 @@ export class UsersController {
 
   @Get(':id')
   async findOne(
-    @Param('id', ParseIntPipe)
-    id: number,
+    @Param('id' /*ParseIntPipe*/)
+    id: MongoIdDto,
   ): Promise<User> {
     return this.userService.findUserById(id);
   }
@@ -42,7 +44,7 @@ export class UsersController {
 
   @Patch(':id')
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: MongoIdDto,
     @Body()
     updateUserDto: UpdateUserDto,
   ): Promise<User> {
@@ -51,7 +53,7 @@ export class UsersController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  async remove(@Param('id') id: MongoIdDto): Promise<void> {
     return this.userService.deleteUser(id);
   }
 }
